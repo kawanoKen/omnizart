@@ -1,20 +1,55 @@
+# name: omnizart
+# channels:
+#   - defaults
+# dependencies:
+#   - python=3.8
+#   - pip:
+#     - vamp>=1.1.0,<2.0.0
+#     - spleeter>=2.3.0,<3.0.0
+#     - madmom>=0.16.1,<0.17.0
+#     - pyfluidsynth>=1.2.5,<2.0.0
+#     - click>=7.1.2,<8.0.0
+#     - jsonschema>=3.2.0,<4.0.0
+#     - librosa>=0.8.0,<0.9.0
+#     - mir_eval>=0.6,<0.7
+#     - pillow>=8.3.2,<9.0.0
+#     - pretty_midi>=0.2.9,<0.3.0
+#     - pyyaml>=5.3.1,<6.0.0
+#     - tensorflow==2.5.0
+#     - tqdm>=4.49.0,<5.0.0
+#     - urllib3==1.26.4
+
 name: omnizart
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - python=3.8
+  - pip>=24.2
+  - numpy            # vamp の setup.py が import するので先に入れる
+  - setuptools
+  - wheel
+  - cython
+  - pyyaml=5.4.*     # pip ではなく conda で入れる（ビルド回避）
+  - libsndfile
+  - ffmpeg
+  - scipy
+  - pandas
   - pip:
-    - vamp>=1.1.0,<2.0.0
-    - spleeter>=2.3.0,<3.0.0
-    - madmom>=0.16.1,<0.17.0
-    - pyfluidsynth>=1.2.5,<2.0.0
-    - click>=7.1.2,<8.0.0
-    - jsonschema>=3.2.0,<4.0.0
-    - librosa>=0.8.0,<0.9.0
-    - mir_eval>=0.6,<0.7
-    - pillow>=8.3.2,<9.0.0
-    - pretty_midi>=0.2.9,<0.3.0
-    - pyyaml>=5.3.1,<6.0.0
-    - tensorflow==2.5.0
-    - tqdm>=4.49.0,<5.0.0
-    - urllib3==1.26.4
+      - vamp>=1.1.0,<2.0.0
+      - madmom==0.16.1
+      - pyfluidsynth>=1.2.5,<2.0.0
+      - click==7.1.2
+      - jsonschema==3.2.0
+      - librosa==0.8.1
+      - mir_eval==0.6
+      - pillow==8.4.0
+      - pretty_midi==0.2.10
+      - tqdm>=4.49.0,<5.0.0
+      - urllib3==1.26.4
+      # Apple Silicon 用 TensorFlow
+      - tensorflow-macos==2.9.2
+      - tensorflow-metal==0.5.0
+      # Spleeter は TF を "tensorflow" 名で要求するため、2.4.0 に固定して no-deps で入れる
+      # environment.yml 上では列挙だけし、インストール後に下記を手動で実行してください:
+      # pip install "spleeter==2.4.0" --no-deps
